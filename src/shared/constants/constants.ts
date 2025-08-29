@@ -16,5 +16,18 @@ export const ERROR404 = {
 } as const;
 
 export const HOME_PAGE = {
-  TITLE: 'Home Page',
+  TITLE: 'CO2 emissions data by countries',
 } as const;
+
+export const SPINNER = {
+  TITLE: 'Loading...',
+} as const;
+
+export const TABLE_COLUMNS = [
+  { key: 'name', label: 'Name' },
+  { key: 'iso', label: 'ISO Code' },
+  { key: 'year', label: 'Year' },
+  { key: 'population', label: 'Population' },
+  { key: 'co2', label: 'CO2' },
+  { key: 'co2PerCapita', label: 'CO2 per capita' },
+] as const;

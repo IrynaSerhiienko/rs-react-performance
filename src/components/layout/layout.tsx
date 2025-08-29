@@ -11,7 +11,7 @@ export function AppLayout() {
       text-[var(--color-base-content)] dark:text-[var(--color-base-100)]"
     >
       <Header />
-      <main className="pt-[120px]">
+      <main className="pt-[120px] pb-10">
         <LimitContainer>
           <Outlet />
         </LimitContainer>
