@@ -6,6 +6,7 @@ import { LimitContainer } from '../limit-container/limit-container';
 
 const navItems = [
   { to: ROUTES.HOME, label: ROUTE_LABELS.HOME, end: true },
+  { to: ROUTES.INFO, label: ROUTE_LABELS.INFO, end: true },
 ] as const;
 
 export function Header() {

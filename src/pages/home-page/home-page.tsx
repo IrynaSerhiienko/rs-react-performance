@@ -1,17 +1,16 @@
 import { Suspense } from 'react';
-import { HOME_PAGE } from '../../shared/constants/constants';
+import { HOME_PAGE, TITLE_LEVELS } from '../../shared/constants/constants';
 import { Spinner } from '../../components/spinner/spinner';
 import { CountryEmissionsTable } from '../../components/country-emissions-table/country-emissions-table';
+import { Title } from '../../components/title/title';
 
 export function HomePage() {
   return (
-    <>
-      <h1 className="text-xl md:text-2xl font-bold flex justify-center mb-4 text-[var(--color-primary-content)]">
-        {HOME_PAGE.TITLE}
-      </h1>
+    <div className="flex flex-col gap-10">
+      <Title level={TITLE_LEVELS.H1}>{HOME_PAGE.TITLE}</Title>
       <Suspense fallback={<Spinner />}>
         <CountryEmissionsTable />
       </Suspense>
-    </>
+    </div>
   );
 }
