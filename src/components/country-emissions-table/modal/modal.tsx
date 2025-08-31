@@ -25,6 +25,13 @@ export function Modal({ onClose, onAddColumns, existingColumns }: ModalProps) {
   }, [onClose]);
 
   useEffect(() => {
+    document.body.classList.add('overflow-hidden');
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === KEY_CODES.ESCAPE) handleClose();
     };

@@ -42,6 +42,7 @@ export const TABLE_COLUMNS = [
 
 export const KEY_CODES = {
   ESCAPE: 'Escape',
+  ENTER: 'Enter',
 } as const;
 
 export const AVAILABLE_COLUMNS = [
@@ -51,8 +52,11 @@ export const AVAILABLE_COLUMNS = [
 ] as const;
 
 export const MODAL = {
-  CLOSE_BUTTON: 'Close',
+  CLOSE_BUTTON: '✕',
+  CLOSE_BUTTON_ARIA: 'Close',
   ADD_BUTTON: '+',
+  ADD_BUTTON_ARIA: 'Add',
+  CONFIRM_BUTTON: 'Confirm',
 
   TITLE: 'Add columns',
   DESCRIPTION: 'Select which columns to add:',

@@ -1,19 +1,24 @@
 import { getData } from '../../shared/api/getData';
 import { use, useState } from 'react';
 import { Spinner } from '../spinner/spinner';
-import { MODAL, TABLE_COLUMNS } from '../../shared/constants/constants';
+import {
+  MODAL,
+  TABLE_COLUMNS,
+  KEY_CODES,
+} from '../../shared/constants/constants';
 import type { CountryInfo, Co2Data } from '../../shared/types/types';
 import { TableCellTh } from './table-cell-th/table-cell-th';
 import { TableCellTd } from './table-cell-td/table-cell-td';
 import { Modal } from './modal/modal';
-import { Button } from '../button/button';
 
 const DEFAULT_VALUE = 'N/A';
+const ROW_INDEX_OFFSET = 1;
+const LAST_ELEMENT_OFFSET = 1;
 
 const dataPromise = getData();
 
 function normalizeCountryData(country: string, info: CountryInfo) {
-  const latest = info.data?.[info.data.length - 1] ?? {};
+  const latest = info.data?.[info.data.length - LAST_ELEMENT_OFFSET] ?? {};
 
   return {
     name: country,
@@ -27,7 +32,7 @@ function normalizeCountryData(country: string, info: CountryInfo) {
 
 export function CountryEmissionsTable() {
   const [selectedColumns, setSelectedColumns] = useState<string[]>(
-    TABLE_COLUMNS.map((c) => c.key)
+    TABLE_COLUMNS.map((column) => column.key)
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,10 +50,18 @@ export function CountryEmissionsTable() {
     setSelectedColumns((prev) => Array.from(new Set([...prev, ...columns])));
   };
 
-  const displayedColumns = selectedColumns.map((key) => {
-    const column = TABLE_COLUMNS.find((c) => c.key === key);
-    return column ?? { key, label: key };
+  const displayedColumns = selectedColumns.map((selectedKey) => {
+    const columnDefinition = TABLE_COLUMNS.find(
+      (tableColumn) => tableColumn.key === selectedKey
+    );
+    return columnDefinition ?? { key: selectedKey, label: selectedKey };
   });
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === KEY_CODES.ENTER) {
+      handleOpenModal();
+    }
+  };
 
   return (
     <>
@@ -61,19 +74,26 @@ export function CountryEmissionsTable() {
       )}
 
       <div className="relative w-full">
-        <Button
-          title={MODAL.TITLE}
-          onClick={handleOpenModal}
-          className="absolute top-0 right-0"
-        >
-          {MODAL.ADD_BUTTON}
-        </Button>
         <table className=" w-full border-collapse rounded-lg shadow-2xl bg-[var(--color-base-100)] text-[var(--color-base-content)] text-base md:text-lg">
           <thead>
             <tr>
-              <TableCellTh>№</TableCellTh>
+              <TableCellTh>
+                <div
+                  onClick={handleOpenModal}
+                  role="button"
+                  tabIndex={0}
+                  title={MODAL.TITLE}
+                  onKeyDown={handleKeyDown}
+                  className="flex items-center justify-center text-4xl font-bold cursor-pointer select-none transition-transform duration-300  hover:scale-125"
+                >
+                  {MODAL.ADD_BUTTON}
+                </div>
+              </TableCellTh>
+
               {displayedColumns.map((column) => (
-                <TableCellTh key={column.key}>{column.label}</TableCellTh>
+                <TableCellTh key={column.key} className="align-top">
+                  {column.label}
+                </TableCellTh>
               ))}
             </tr>
           </thead>
@@ -84,7 +104,7 @@ export function CountryEmissionsTable() {
 
               return (
                 <tr key={country} className="hover:bg-[var(--color-base-200)]">
-                  <TableCellTd>{index + 1}</TableCellTd>
+                  <TableCellTd>{index + ROW_INDEX_OFFSET}</TableCellTd>
                   {displayedColumns.map((column) => (
                     <TableCellTd key={column.key}>
                       {row[column.key as keyof typeof row] ?? 'N/A'}
