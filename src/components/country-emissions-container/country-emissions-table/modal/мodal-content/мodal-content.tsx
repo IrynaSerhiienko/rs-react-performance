@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { MODAL, TITLE_LEVELS } from '../../../../shared/constants/constants';
-import { Button } from '../../../button/button';
-import { Title } from '../../../title/title';
+import { MODAL, TITLE_LEVELS } from '../../../../../shared/constants/constants';
+import { Button } from '../../../../button/button';
+import { Title } from '../../../../title/title';
 
 const FIRST_INDEX = 0;
 const LAST_INDEX_OFFSET = 1;

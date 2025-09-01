@@ -68,3 +68,24 @@ export const TITLE_LEVELS = {
   H2: 2,
   H3: 3,
 } as const;
+
+export const FILTERS = {
+  PLACEHOLDER_SEARCH: 'Search by country name...',
+  CLEAR_BUTTON: '✕',
+  CLEAR_BUTTON_TITLE: 'Clear search',
+  SEARCH_BUTTON: 'Search',
+  ALL_COUNTRIES: 'All countries',
+  ALL_YEARS: 'All years',
+  LABEL_COUNTRY_NAME: 'Country Name',
+  LABEL_COUNTRY: 'Country',
+  LABEL_YEAR: 'Year',
+  SELECT_LATEST: 'Latest',
+  COUNTRY_SELECT_ID: 'country-select',
+  YEAR_SELECT_ID: 'year-select',
+} as const;
+
+export const TABLE_UTILS = {
+  DEFAULT_VALUE: 'N/A',
+  ROW_INDEX_OFFSET: 1,
+  LAST_ELEMENT_OFFSET: 1,
+} as const;

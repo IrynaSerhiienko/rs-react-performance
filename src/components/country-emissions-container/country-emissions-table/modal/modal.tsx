@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { KEY_CODES } from '../../../shared/constants/constants';
+import { KEY_CODES } from '../../../../shared/constants/constants';
 import { ModalContent } from './мodal-content/мodal-content';
 
 type ModalProps = {
