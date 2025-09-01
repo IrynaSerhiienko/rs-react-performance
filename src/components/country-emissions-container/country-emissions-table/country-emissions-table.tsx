@@ -20,6 +20,9 @@ type CountryEmissionsTableProps = {
   selectedCountry: string;
 };
 
+type SortKey = 'name' | 'population';
+type SortOrder = 'asc' | 'desc';
+
 export function CountryEmissionsTable({
   data,
   searchName,
@@ -30,6 +33,18 @@ export function CountryEmissionsTable({
     TABLE_COLUMNS.map((column) => column.key)
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortKey(key);
+      setSortOrder('asc');
+    }
+  };
 
   const handleOpenModal = useCallback(() => setIsModalOpen(true), []);
   const handleCloseModal = useCallback(() => setIsModalOpen(false), []);
@@ -57,7 +72,7 @@ export function CountryEmissionsTable({
   );
 
   const filteredData = useMemo(() => {
-    return normalizedData
+    const dataWithYear = normalizedData
       .map((row) => {
         const yearData =
           selectedYear === FILTERS.SELECT_LATEST
@@ -81,10 +96,34 @@ export function CountryEmissionsTable({
           row.name.toLowerCase().includes(searchName.toLowerCase()) &&
           (selectedCountry === '' || row.name === selectedCountry)
       );
-  }, [normalizedData, searchName, selectedYear, selectedCountry]);
+
+    return dataWithYear.sort((a, b) => {
+      let compare = 0;
+      if (sortKey === 'name') {
+        compare = a.name.localeCompare(b.name);
+      } else if (sortKey === 'population') {
+        compare = (a.population as number) - (b.population as number);
+      }
+      return sortOrder === 'asc' ? compare : -compare;
+    });
+  }, [
+    normalizedData,
+    searchName,
+    selectedYear,
+    selectedCountry,
+    sortKey,
+    sortOrder,
+  ]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === KEY_CODES.ENTER) handleOpenModal();
+  };
+
+  const renderSortArrow = (key: SortKey) => {
+    if (sortKey === key) {
+      return sortOrder === 'asc' ? ' ↑' : ' ↓';
+    }
+    return ' ↕';
   };
 
   return (
@@ -116,7 +155,17 @@ export function CountryEmissionsTable({
 
               {displayedColumns.map((column) => (
                 <TableCellTh key={column.key} className="align-top">
-                  <span>{column.label}</span>
+                  <span
+                    className="cursor-pointer select-none whitespace-nowrap"
+                    onClick={() => {
+                      if (column.key === 'name') handleSort('name');
+                      if (column.key === 'population') handleSort('population');
+                    }}
+                  >
+                    {column.label}{' '}
+                    {(column.key === 'name' || column.key === 'population') &&
+                      renderSortArrow(column.key as SortKey)}
+                  </span>
                 </TableCellTh>
               ))}
             </tr>

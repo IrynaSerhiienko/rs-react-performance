@@ -28,7 +28,7 @@ export const Filters = memo(function Filters({
   onCountryChange,
 }: FiltersProps) {
   return (
-    <div className="flex flex-col gap-4 mb-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <NameFilter value={searchName} onChange={onSearchNameChange} />
       <YearFilter
         value={selectedYear}
