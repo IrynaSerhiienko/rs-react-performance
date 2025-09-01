@@ -1,17 +1,18 @@
-import { memo, type ChangeEvent } from 'react';
+import { memo } from 'react';
+import type { ChangeEvent } from 'react';
 import { FILTERS } from '../../../../shared/constants/constants';
 
-interface YearFilterProps {
+interface CountryFilterProps {
   value: string;
   values: string[];
   onChange: (value: string) => void;
 }
 
-export const YearFilter = memo(function YearFilter({
+export const CountryFilter = memo(function CountryFilter({
   value,
   values,
   onChange,
-}: YearFilterProps) {
+}: CountryFilterProps) {
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     onChange(event.target.value);
   };
@@ -19,14 +20,14 @@ export const YearFilter = memo(function YearFilter({
   return (
     <div className="flex flex-col gap-1 max-w-xs">
       <label
-        htmlFor={FILTERS.YEAR_SELECT_ID}
+        htmlFor={FILTERS.COUNTRY_SELECT_ID}
         className="text-[var(--color-base-content)] font-semibold"
       >
-        {FILTERS.LABEL_YEAR}
+        {FILTERS.LABEL_COUNTRY}
       </label>
       <div className="relative w-full flex gap-2">
         <select
-          id={FILTERS.YEAR_SELECT_ID}
+          id={FILTERS.COUNTRY_SELECT_ID}
           value={value}
           onChange={handleChange}
           className="w-full px-2 py-2 border rounded
@@ -34,10 +35,10 @@ export const YearFilter = memo(function YearFilter({
             text-[var(--color-base-content)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]
             appearance-none"
         >
-          <option value={FILTERS.SELECT_LATEST}>{FILTERS.SELECT_LATEST}</option>
-          {values.map((year) => (
-            <option key={year} value={year}>
-              {year}
+          <option value="">{FILTERS.ALL_COUNTRIES}</option>
+          {values.map((country) => (
+            <option key={country} value={country}>
+              {country}
             </option>
           ))}
         </select>

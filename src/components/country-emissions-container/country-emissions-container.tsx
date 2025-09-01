@@ -11,11 +11,17 @@ const dataPromise = getData();
 export function CountryEmissionsContainer() {
   const [searchName, setSearchName] = useState('');
   const [selectedYear, setSelectedYear] = useState('latest');
+  const [selectedCountry, setSelectedCountry] = useState('');
   const data = use(dataPromise) as Co2Data;
 
   const availableYears = useMemo(() => {
     return data ? getAvailableYears(data) : [];
   }, [data]);
+
+  const availableCountries = useMemo(
+    () => (data ? Object.keys(data).sort() : []),
+    [data]
+  );
 
   if (!data) return <Spinner />;
 
@@ -27,11 +33,15 @@ export function CountryEmissionsContainer() {
         selectedYear={selectedYear}
         availableYears={availableYears}
         onYearChange={setSelectedYear}
+        selectedCountry={selectedCountry}
+        availableCountries={availableCountries}
+        onCountryChange={setSelectedCountry}
       />
       <CountryEmissionsTable
         data={data}
         searchName={searchName}
         selectedYear={selectedYear}
+        selectedCountry={selectedCountry}
       />
     </>
   );

@@ -17,12 +17,14 @@ type CountryEmissionsTableProps = {
   data: Co2Data;
   searchName: string;
   selectedYear: string;
+  selectedCountry: string;
 };
 
 export function CountryEmissionsTable({
   data,
   searchName,
   selectedYear,
+  selectedCountry,
 }: CountryEmissionsTableProps) {
   const [selectedColumns, setSelectedColumns] = useState<string[]>(
     TABLE_COLUMNS.map((column) => column.key)
@@ -74,10 +76,12 @@ export function CountryEmissionsTable({
           year: yearData.year ?? row.year,
         };
       })
-      .filter((row) =>
-        row.name.toLowerCase().includes(searchName.toLowerCase())
+      .filter(
+        (row) =>
+          row.name.toLowerCase().includes(searchName.toLowerCase()) &&
+          (selectedCountry === '' || row.name === selectedCountry)
       );
-  }, [normalizedData, searchName, selectedYear]);
+  }, [normalizedData, searchName, selectedYear, selectedCountry]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === KEY_CODES.ENTER) handleOpenModal();
